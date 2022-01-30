@@ -37,11 +37,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   const getLayout = Component.getLayout ?? ((page: any) => page);
 
   return (
-    <UserProvider>
-      <ChakraProvider theme={theme}>
-        {getLayout(<Component {...pageProps} />)}
-      </ChakraProvider>
-    </UserProvider>
+    <ChakraProvider theme={theme}>
+      <UserProvider>{getLayout(<Component {...pageProps} />)}</UserProvider>
+    </ChakraProvider>
   );
 }
 

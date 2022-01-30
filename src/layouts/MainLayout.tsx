@@ -7,8 +7,17 @@ const MainLayout: React.FC = ({ children }) => {
     <Flex w="full" flexDirection={{ base: "column", md: "row" }}>
       <Sidebar />
       <MobileSidebar />
-      <Box h="100vh" w="100%" px={5} py={10} bg="gray.100">
-        <Box w={{ base: "100%", md: "fit-content" }}>{children}</Box>
+      <Box
+        minH="100vh"
+        w="100%"
+        px={5}
+        py={10}
+        bg="gray.100"
+        ml={{ base: 0, md: 72 }}
+      >
+        <Box w={{ base: "100%" }} position="relative">
+          {children}
+        </Box>
       </Box>
     </Flex>
   );

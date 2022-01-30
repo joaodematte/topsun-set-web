@@ -21,31 +21,17 @@ type UserContextType = {
   signIn: (username: string, password: string) => Promise<void>;
   signOut: () => void;
   setLoggedUser: Dispatch<SetStateAction<User | null>>;
+  isUserAuthenticated: boolean;
 };
 
 export const UserContext = createContext({} as UserContextType);
 
 export const UserProvider: React.FC = ({ children }) => {
   const [loggedUser, setLoggedUser] = useState<User | null>(null);
+
+  const isUserAuthenticated = !!loggedUser;
+
   const router = useRouter();
-
-  useEffect(() => {
-    const { "topsunauth.token": token } = parseCookies();
-
-    if (token) {
-      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-      const fetchLoggedUsedData = async () => {
-        await api
-          .get("/users/me")
-          .then((res) => {
-            setLoggedUser(res.data);
-          })
-          .catch((err) => console.log(err.response));
-      };
-
-      fetchLoggedUsedData();
-    }
-  }, []);
 
   const signIn = async (username: string, password: string) => {
     await api
@@ -85,9 +71,33 @@ export const UserProvider: React.FC = ({ children }) => {
     console.log("Usuário deslogado");
   };
 
+  useEffect(() => {
+    const { "topsunauth.token": token } = parseCookies();
+
+    if (token) {
+      api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+      const fetchLoggedUsedData = async () => {
+        await api
+          .get("/users/me")
+          .then((res) => {
+            setLoggedUser(res.data);
+          })
+          .catch((err) => console.log(err.response));
+      };
+
+      fetchLoggedUsedData();
+    }
+  }, []);
+
   return (
     <UserContext.Provider
-      value={{ user: loggedUser, signIn, signOut, setLoggedUser }}
+      value={{
+        user: loggedUser,
+        signIn,
+        signOut,
+        setLoggedUser,
+        isUserAuthenticated,
+      }}
     >
       {children}
     </UserContext.Provider>

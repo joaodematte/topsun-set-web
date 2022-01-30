@@ -13,7 +13,7 @@ import {
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { parseCookies } from "nookies";
-import { ReactElement, useContext, useEffect, useMemo, useState } from "react";
+import { ReactElement, useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { UserContext } from "../../context/UserContext";
 import MainLayout from "../../layouts/MainLayout";
@@ -37,10 +37,6 @@ const Configuracoes = () => {
     handleSubmit: handleSubmitAvatar,
     formState: { errors: avatarErrors },
   } = useForm();
-
-  useEffect(() => {
-    reset(user);
-  }, [user]);
 
   const handleChangeUserInfos = async (data: Object) => {
     Object.assign(data, { avatarUrl: user?.avatarUrl });
@@ -92,16 +88,14 @@ const Configuracoes = () => {
       <Head>
         <title>SET | Configurações</title>
       </Head>
-      <Grid
-        bg="white"
-        p={5}
-        gap={5}
-        borderRadius={5}
-        onSubmit={handleSubmit((data) => console.log(data))}
-        h="fit-content"
-      >
+      <Grid bg="white" p={5} gap={5} borderRadius={5} h="fit-content">
         <Heading fontWeight="extrabold">Configurações do usuário</Heading>
-        <Grid as="form" gap={2} onSubmit={handleSubmit(handleChangeUserInfos)}>
+        <Grid
+          as="form"
+          gap={2}
+          onSubmit={handleSubmit(handleChangeUserInfos)}
+          autoComplete="off"
+        >
           <FormControl>
             <FormLabel htmlFor="fullName">Nome completo</FormLabel>
             <Input
@@ -181,6 +175,7 @@ const Configuracoes = () => {
           w="full"
           as="form"
           onSubmit={handleSubmitAvatar(handleChangeAvatar)}
+          autoComplete="off"
         >
           <FormControl>
             <FormLabel htmlFor="avatarImage">Selecione o arquivo</FormLabel>

@@ -24,13 +24,15 @@ const Sidebar = () => {
   return (
     <Flex
       h="100vh"
-      w={96}
+      w={72}
       borderRight="2px"
       borderColor="gray.200"
       py={10}
       px={4}
       display={{ base: "none", md: "flex" }}
       direction="column"
+      position="fixed"
+      bg="white"
     >
       <Grid px={4} py={2} gap={5}>
         <Heading w="full" fontSize="4xl" fontWeight="extrabold">
