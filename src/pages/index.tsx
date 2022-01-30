@@ -8,7 +8,6 @@ import {
   Link as ChakraLink,
   Button,
   Text,
-  FormErrorMessage,
 } from "@chakra-ui/react";
 import type { GetServerSideProps, NextPage } from "next";
 import { ArrowForwardIcon } from "@chakra-ui/icons";

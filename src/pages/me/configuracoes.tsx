@@ -2,6 +2,7 @@ import {
   Avatar,
   Box,
   Button,
+  Divider,
   Flex,
   FormControl,
   FormLabel,
@@ -12,7 +13,7 @@ import {
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { parseCookies } from "nookies";
-import { ReactElement, useContext } from "react";
+import { ReactElement, useContext, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { UserContext } from "../../context/UserContext";
 import MainLayout from "../../layouts/MainLayout";
@@ -21,26 +22,48 @@ import api from "../../services/api";
 const Configuracoes = () => {
   const { user, setLoggedUser } = useContext(UserContext);
 
-  const { register, handleSubmit } = useForm();
-  const { register: registerAvatar, handleSubmit: handleSubmitAvatar } =
-    useForm();
+  const [isAvatarLoading, setIsAvatarLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const {
+    register: registerAvatar,
+    handleSubmit: handleSubmitAvatar,
+    formState: { errors: avatarErrors },
+  } = useForm();
+
+  useEffect(() => {
+    reset(user);
+  }, [user]);
 
   const handleChangeUserInfos = async (data: Object) => {
     Object.assign(data, { avatarUrl: user?.avatarUrl });
 
-    console.log(data);
+    setIsLoading(true);
 
     await api
       .post("/users/update", data)
       .then((res) => {
         setLoggedUser(res.data);
+        setIsLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
   };
 
   const handleChangeAvatar = async (data: any) => {
     const secureUrl = await api.get("/gets3url");
     const file = data.avatarImage[0];
+
+    setIsAvatarLoading(true);
 
     await fetch(secureUrl.data.url, {
       method: "PUT",
@@ -58,6 +81,7 @@ const Configuracoes = () => {
           avatarUrl: imageUrl,
         })
         .then((res) => {
+          setIsAvatarLoading(false);
           setLoggedUser(res.data);
         });
     });
@@ -81,37 +105,61 @@ const Configuracoes = () => {
           <FormControl>
             <FormLabel htmlFor="fullName">Nome completo</FormLabel>
             <Input
-              {...register("fullName")}
+              {...register("fullName", { required: true })}
               id="fullName"
+              name="fullName"
               type="text"
-              defaultValue={user?.fullName}
+              isInvalid={errors.fullname}
             />
           </FormControl>
 
           <FormControl>
             <FormLabel htmlFor="username">Nome de usuário</FormLabel>
             <Input
-              {...register("username")}
+              {...register("username", { required: true })}
               id="username"
+              name="username"
               type="text"
-              defaultValue={user?.username}
-              disabled
+              isInvalid={errors.username}
             />
           </FormControl>
 
           <FormControl>
             <FormLabel htmlFor="email">Endereço de email</FormLabel>
             <Input
-              {...register("email")}
+              {...register("email", {
+                required: true,
+                pattern: {
+                  value: /\S+@\S+\.\S+/,
+                  message: "Endereço de email em formato inválido",
+                },
+              })}
               id="email"
+              name="email"
               type="text"
-              defaultValue={user?.email}
+              isInvalid={errors.email}
             />
           </FormControl>
 
-          <Button type="submit" colorScheme="blue">
+          <Button type="submit" colorScheme="blue" isLoading={isLoading}>
             Salvar
           </Button>
+        </Grid>
+        <Divider />
+        <Grid gap={2}>
+          <FormControl>
+            <FormLabel htmlFor="password">Senha</FormLabel>
+            <Input id="password" type="password" />
+          </FormControl>
+
+          <FormControl>
+            <FormLabel htmlFor="password_confirm">
+              Confirmação de senha
+            </FormLabel>
+            <Input id="password_confirm" type="password" />
+          </FormControl>
+
+          <Button colorScheme="blue">Salvar</Button>
         </Grid>
       </Grid>
 
@@ -140,10 +188,16 @@ const Configuracoes = () => {
               {...registerAvatar("avatarImage", { required: true })}
               type="file"
               id="avatarImage"
+              isInvalid={avatarErrors.avatarImage}
             />
           </FormControl>
 
-          <Button isFullWidth type="submit" colorScheme="blue">
+          <Button
+            isFullWidth
+            type="submit"
+            colorScheme="blue"
+            isLoading={isAvatarLoading}
+          >
             Salvar
           </Button>
         </Grid>
