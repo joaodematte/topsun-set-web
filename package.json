@@ -8,9 +8,22 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@chakra-ui/icons": "^1.1.1",
+    "@chakra-ui/react": "^1.8.1",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
+    "@fontsource/inter": "^4.5.2",
+    "@fontsource/montserrat": "^4.5.3",
+    "@types/axios": "^0.14.0",
+    "@types/nookies": "^2.0.3",
+    "axios": "^0.25.0",
+    "framer-motion": "^5",
     "next": "12.0.9",
+    "nookies": "^2.5.2",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "react-hook-form": "^7.25.1",
+    "react-icons": "^4.3.1"
   },
   "devDependencies": {
     "@types/node": "17.0.13",
