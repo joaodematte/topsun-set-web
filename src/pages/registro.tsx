@@ -9,6 +9,7 @@ import {
   Button,
   Text,
   FormHelperText,
+  Heading,
 } from "@chakra-ui/react";
 import type { GetServerSideProps, NextPage } from "next";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
@@ -49,9 +50,9 @@ const Registro = () => {
       onSubmit={handleSubmit((data) => handleSignUp(data))}
       autoComplete="off"
     >
-      <Text fontSize="5xl" fontWeight="extrabold">
+      <Heading fontSize="5xl" fontWeight="extrabold">
         Registro
-      </Text>
+      </Heading>
       <FormControl isInvalid={errors.fullName}>
         <FormLabel htmlFor="fullName">Nome completo</FormLabel>
         <Input

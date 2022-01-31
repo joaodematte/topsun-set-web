@@ -175,6 +175,7 @@ const ListagemFabricantes = () => {
                       <Button
                         size="sm"
                         mr={2}
+                        colorScheme="red"
                         onClick={() => {
                           setSelectedManufacturer({
                             id: item.id,
@@ -210,6 +211,7 @@ const ListagemFabricantes = () => {
         <ModalContent
           as="form"
           onSubmit={handleSubmit(handleManufacturerRegister)}
+          autoComplete="off"
         >
           <ModalHeader>Cadastrar fabricante</ModalHeader>
           <ModalCloseButton />
@@ -252,6 +254,7 @@ const ListagemFabricantes = () => {
         <ModalContent
           as="form"
           onSubmit={handleSubmit(handleManufacturerRegister)}
+          autoComplete="off"
         >
           <ModalHeader>Cadastrar fabricante</ModalHeader>
           <ModalCloseButton />
@@ -292,7 +295,7 @@ const ListagemFabricantes = () => {
             <Grid gap={2}>
               <Text fontWeight="extrabold">
                 Essa ação, consequentemente, excluirá TODOS OS SEUS
-                MÓDULOS/INVERSORES cadastrados
+                MÓDULOS/INVERSORES cadastrados!
               </Text>
               <Text>
                 Fabricante a ser excluído:{" "}
@@ -316,11 +319,18 @@ const ListagemFabricantes = () => {
         </ModalContent>
       </Modal>
 
-      <Modal isOpen={isEditOpen} onClose={onEditClose}>
+      <Modal
+        isOpen={isEditOpen}
+        onClose={() => {
+          onEditClose();
+          resetEdit();
+        }}
+      >
         <ModalOverlay />
         <ModalContent
           as="form"
           onSubmit={handleSubmitEdit(handleManufacturerUpdate)}
+          autoComplete="off"
         >
           <ModalHeader>Editar fabricante</ModalHeader>
           <ModalCloseButton />
@@ -328,7 +338,7 @@ const ListagemFabricantes = () => {
             <Grid gap={2}>
               <Text fontWeight="extrabold">
                 Essa ação, consequentemente, atualizará TODOS OS SEUS
-                MÓDULOS/INVERSORES cadastrados
+                MÓDULOS/INVERSORES cadastrados!
               </Text>
               <Text>
                 Fabricante a ser atualizado:{" "}

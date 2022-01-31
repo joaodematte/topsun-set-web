@@ -8,6 +8,7 @@ import {
   Link as ChakraLink,
   Button,
   Text,
+  Heading,
 } from "@chakra-ui/react";
 import type { GetServerSideProps, NextPage } from "next";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
@@ -48,9 +49,9 @@ const Home = () => {
       )}
       autoComplete="off"
     >
-      <Text fontSize="5xl" fontWeight="extrabold">
+      <Heading fontSize="5xl" fontWeight="extrabold">
         SET
-      </Text>
+      </Heading>
       <FormControl isInvalid={errors.username}>
         <FormLabel htmlFor="username">Nome de usuário</FormLabel>
         <Input

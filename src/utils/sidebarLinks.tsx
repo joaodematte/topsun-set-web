@@ -84,7 +84,7 @@ export const sidebarLinks = [
         title: "Usuários",
         path: "/listagens/usuarios",
         icon: <FaUserFriends size={20} />,
-        isDisabled: false,
+        isDisabled: true,
         isLogout: false,
       },
     ],

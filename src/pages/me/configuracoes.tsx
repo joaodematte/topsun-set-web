@@ -1,3 +1,4 @@
+import { CheckIcon } from "@chakra-ui/icons";
 import {
   Avatar,
   Box,
@@ -24,6 +25,8 @@ const Configuracoes = () => {
 
   const [isAvatarLoading, setIsAvatarLoading] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [isAvatarSaved, setAvatarIsSaved] = useState(false);
 
   const {
     register,
@@ -48,9 +51,13 @@ const Configuracoes = () => {
       .then((res) => {
         setLoggedUser(res.data);
         setIsLoading(false);
+        setIsSaved(true);
+        setTimeout(() => {
+          setIsSaved(false);
+        }, 2000);
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.response.data);
         setIsLoading(false);
       });
   };
@@ -78,10 +85,18 @@ const Configuracoes = () => {
         })
         .then((res) => {
           setIsAvatarLoading(false);
+          setAvatarIsSaved(true);
+          setTimeout(() => {
+            setAvatarIsSaved(false);
+          }, 2000);
           setLoggedUser(res.data);
         });
     });
   };
+
+  useEffect(() => {
+    reset(user);
+  }, [reset, user]);
 
   return (
     <Flex gap={10} flexDirection={{ base: "column", md: "row" }}>
@@ -135,25 +150,31 @@ const Configuracoes = () => {
             />
           </FormControl>
 
-          <Button type="submit" colorScheme="blue" isLoading={isLoading}>
-            Salvar
+          <Button
+            type="submit"
+            colorScheme={isSaved ? "green" : "blue"}
+            isLoading={isLoading}
+          >
+            {isSaved ? <CheckIcon /> : "Salvar"}
           </Button>
         </Grid>
         <Divider />
         <Grid gap={2}>
           <FormControl>
             <FormLabel htmlFor="password">Senha</FormLabel>
-            <Input id="password" type="password" />
+            <Input id="password" type="password" disabled />
           </FormControl>
 
           <FormControl>
             <FormLabel htmlFor="password_confirm">
               Confirmação de senha
             </FormLabel>
-            <Input id="password_confirm" type="password" />
+            <Input id="password_confirm" type="password" disabled />
           </FormControl>
 
-          <Button colorScheme="blue">Salvar</Button>
+          <Button colorScheme="blue" disabled>
+            Salvar
+          </Button>
         </Grid>
       </Grid>
 
@@ -190,10 +211,10 @@ const Configuracoes = () => {
           <Button
             isFullWidth
             type="submit"
-            colorScheme="blue"
+            colorScheme={isAvatarSaved ? "green" : "blue"}
             isLoading={isAvatarLoading}
           >
-            Salvar
+            {isAvatarSaved ? <CheckIcon /> : "Salvar"}
           </Button>
         </Grid>
       </Flex>

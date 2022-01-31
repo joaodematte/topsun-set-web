@@ -35,10 +35,10 @@ import { UserContext } from "../../../context/UserContext";
 import MainLayout from "../../../layouts/MainLayout";
 import api from "../../../services/api";
 
-interface SolarPanelsModel {
+interface InvertersModel {
   id: string;
   model: string;
-  outputs: number[];
+  activePower: number;
   manufacturerId: string;
   manufacturerName?: string;
 }
@@ -49,12 +49,12 @@ interface ManufacturersType {
   id: string;
 }
 
-const ListagemModulos = () => {
+const ListagemInversores = () => {
   const { isUserAuthenticated } = useContext(UserContext);
 
-  const [solarPanels, setSolarPanels] = useState([]);
-  const [selectedSolarPanel, setSelectedSolarPanel] =
-    useState<SolarPanelsModel | null>(null);
+  const [inverters, setInverters] = useState([]);
+  const [selectedInverter, setSelectedInverter] =
+    useState<InvertersModel | null>(null);
   const [manufacturers, setManufacturers] = useState<ManufacturersType[]>([]);
 
   const {
@@ -89,29 +89,22 @@ const ListagemModulos = () => {
     formState: { errors: updateErrors },
   } = useForm();
 
-  const handleGetSolarPanels = async () => {
+  const handleGetInverters = async () => {
     await api
-      .get("/solarpanels")
+      .get("/inverters")
       .then((res) => {
-        setSolarPanels(res.data);
+        setInverters(res.data);
       })
       .catch((err) => {
         alert(err.response.data.message);
       });
   };
 
-  const handleAddModules = async (data: any) => {
-    const outputs = data.outputs
-      .split(",")
-      .map((v: string) => v.trim())
-      .map((v: string) => Number(v));
-
-    data.outputs = outputs;
-
+  const handleAddInverters = async (data: any) => {
     await api
-      .post("/solarpanels", data)
+      .post("/inverters", data)
       .then((res) => {
-        handleGetSolarPanels();
+        handleGetInverters();
         onAddClose();
         reset();
       })
@@ -120,27 +113,20 @@ const ListagemModulos = () => {
       });
   };
 
-  const handleDeleteSolarPanel = async (data: SolarPanelsModel) => {
-    await api.delete(`/solarpanels/${data.id}`).then((res) => {
-      handleGetSolarPanels();
+  const handleDeleteInverter = async (data: InvertersModel) => {
+    await api.delete(`/inverters/${data.id}`).then((res) => {
+      handleGetInverters();
       onDeleteClose();
     });
   };
 
-  const handleEditSolarPanel = async (data: SolarPanelsModel) => {
-    const outputs = data.outputs
-      .split(",")
-      .map((v: string) => v.trim())
-      .map((v: string) => Number(v));
-
-    data.outputs = outputs;
-
-    if (selectedSolarPanel) {
+  const handleEditInverter = async (data: InvertersModel) => {
+    if (selectedInverter) {
       await api
-        .post(`/solarpanels/${selectedSolarPanel.id}`, data)
+        .post(`/inverters/${selectedInverter.id}`, data)
         .then((res) => {
           onEditClose();
-          handleGetSolarPanels();
+          handleGetInverters();
         })
         .catch((err) => {
           alert(err.response.data.message);
@@ -157,7 +143,7 @@ const ListagemModulos = () => {
     const getSolarPanels = async () => {
       if (isUserAuthenticated) {
         handleGetManufacturers();
-        handleGetSolarPanels();
+        handleGetInverters();
       }
     };
 
@@ -168,34 +154,30 @@ const ListagemModulos = () => {
     <>
       <Flex gap={10} w="100%">
         <Head>
-          <title>SET | Listagem de módulos</title>
+          <title>SET | Listagem de inversores</title>
         </Head>
         <Grid bg="white" p={5} gap={5} borderRadius={5} w="100%">
-          <Heading fontWeight="extrabold">Listagem de módulos</Heading>
+          <Heading fontWeight="extrabold">Listagem de inversores</Heading>
           <Table variant="simple">
             <TableCaption>
               <Button rightIcon={<AddIcon />} onClick={onAddOpen}>
-                Cadastrar módulo
+                Cadastrar inversor
               </Button>
             </TableCaption>
             <Thead>
               <Tr>
                 <Th>Modelo</Th>
-                <Th>Potência(as) [Wp]</Th>
+                <Th>Potência ativa [W]</Th>
                 <Th>Fabricante</Th>
                 <Th isNumeric>Ações</Th>
               </Tr>
             </Thead>
             <Tbody>
-              {solarPanels &&
-                solarPanels.map((item: SolarPanelsModel, index: number) => (
+              {inverters &&
+                inverters.map((item: InvertersModel, index: number) => (
                   <Tr key={index}>
                     <Td>{item.model}</Td>
-                    <Td>
-                      {item.outputs.map(
-                        (item: number, index: number) => `${item}, `
-                      )}
-                    </Td>
+                    <Td>{item.activePower}</Td>
                     <Td>{item.manufacturerName}</Td>
                     <Td isNumeric>
                       <Flex justifyContent="end">
@@ -204,7 +186,7 @@ const ListagemModulos = () => {
                           mr={2}
                           colorScheme="red"
                           onClick={() => {
-                            setSelectedSolarPanel(item);
+                            setSelectedInverter(item);
                             onDeleteOpen();
                           }}
                         >
@@ -213,7 +195,7 @@ const ListagemModulos = () => {
                         <Button
                           size="sm"
                           onClick={() => {
-                            setSelectedSolarPanel(item);
+                            setSelectedInverter(item);
                             onEditOpen();
                           }}
                         >
@@ -231,17 +213,17 @@ const ListagemModulos = () => {
       <Modal isOpen={isDeleteOpen} onClose={onDeleteClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Excluir módulo</ModalHeader>
+          <ModalHeader>Excluir inversor</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Grid gap={2}>
               <Text fontWeight="extrabold">
-                Essa ação, consequentemente, excluirá, sem reversão, O MÓDULO de
-                nosso banco de dados!
+                Essa ação, consequentemente, excluirá, sem reversão, O INVERSOR
+                de nosso banco de dados!
               </Text>
               <Text>
-                Módulo a ser excluído:{" "}
-                {selectedSolarPanel && selectedSolarPanel.model}
+                Inversor a ser excluído:{" "}
+                {selectedInverter && selectedInverter.model}
               </Text>
               <Text>Você tem certeza que deseja continuar?</Text>
             </Grid>
@@ -251,7 +233,7 @@ const ListagemModulos = () => {
             <Button
               colorScheme="red"
               onClick={() =>
-                selectedSolarPanel && handleDeleteSolarPanel(selectedSolarPanel)
+                selectedInverter && handleDeleteInverter(selectedInverter)
               }
             >
               Excluir
@@ -270,10 +252,10 @@ const ListagemModulos = () => {
         <ModalOverlay />
         <ModalContent
           as="form"
-          onSubmit={handleSubmit(handleAddModules)}
+          onSubmit={handleSubmit(handleAddInverters)}
           autoComplete="off"
         >
-          <ModalHeader>Cadastrar módulo</ModalHeader>
+          <ModalHeader>Cadastrar inversor</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Grid gap={2}>
@@ -288,26 +270,24 @@ const ListagemModulos = () => {
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor="name">
-                  Potências (separadas por vírgulas, sem espaço)
-                </FormLabel>
+                <FormLabel htmlFor="activePower">Potência ativa [W]</FormLabel>
                 <Input
-                  {...register("outputs", { required: true })}
-                  id="name"
+                  {...register("activePower", { required: true })}
+                  id="activePower"
                   type="text"
-                  isInvalid={addErrors.outputs}
+                  isInvalid={addErrors.activePower}
                 />
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor="productsType">Fabricante</FormLabel>
+                <FormLabel htmlFor="manufacturerId">Fabricante</FormLabel>
                 <Select
                   {...register("manufacturerId", { required: true })}
                   placeholder="Selecione uma opção"
                   isInvalid={addErrors.manufacturerId}
                 >
                   {manufacturers.map((item, index) => {
-                    if (item.productsType == 1) {
+                    if (item.productsType == 0) {
                       return (
                         <option value={item.id} key={index}>
                           {item.name}
@@ -338,16 +318,16 @@ const ListagemModulos = () => {
         <ModalOverlay />
         <ModalContent
           as="form"
-          onSubmit={handleSubmitEdit(handleEditSolarPanel)}
+          onSubmit={handleSubmitEdit(handleEditInverter)}
           autoComplete="off"
         >
-          <ModalHeader>Editar módulo</ModalHeader>
+          <ModalHeader>Editar inversor</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             <Grid gap={2}>
               <Text>
-                Módulo a ser editado:{" "}
-                {selectedSolarPanel && selectedSolarPanel.model}
+                Inversor a ser editado:{" "}
+                {selectedInverter && selectedInverter.model}
               </Text>
               <FormControl>
                 <FormLabel htmlFor="model">Novo nome do modelo</FormLabel>
@@ -356,19 +336,19 @@ const ListagemModulos = () => {
                   id="model"
                   type="text"
                   isInvalid={updateErrors.model}
-                  defaultValue={selectedSolarPanel && selectedSolarPanel.model}
+                  defaultValue={selectedInverter && selectedInverter.model}
                 />
               </FormControl>
 
               <FormControl>
-                <FormLabel htmlFor="outputs">Potências</FormLabel>
+                <FormLabel htmlFor="activePower">Potência</FormLabel>
                 <Input
-                  {...registerEdit("outputs", { required: true })}
-                  id="outputs"
+                  {...registerEdit("activePower", { required: true })}
+                  id="activePower"
                   type="text"
-                  isInvalid={updateErrors.outputs}
+                  isInvalid={updateErrors.activePower}
                   defaultValue={
-                    selectedSolarPanel && selectedSolarPanel.outputs
+                    selectedInverter && selectedInverter.activePower
                   }
                 />
               </FormControl>
@@ -386,7 +366,7 @@ const ListagemModulos = () => {
   );
 };
 
-ListagemModulos.getLayout = function getLayout(page: ReactElement) {
+ListagemInversores.getLayout = function getLayout(page: ReactElement) {
   return <MainLayout>{page}</MainLayout>;
 };
 
@@ -406,4 +386,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   };
 };
 
-export default ListagemModulos;
+export default ListagemInversores;
