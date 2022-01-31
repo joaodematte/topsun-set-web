@@ -37,7 +37,7 @@ const Home = () => {
         setIsLoading(false);
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err.response.data.message);
         setIsLoading(false);
       });
   };

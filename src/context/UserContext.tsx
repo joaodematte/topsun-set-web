@@ -50,8 +50,6 @@ export const UserProvider: React.FC = ({ children }) => {
 
         setLoggedUser(res.data);
 
-        console.log(res.data);
-
         router.push("/dashboard");
 
         return res.data;
@@ -67,7 +65,6 @@ export const UserProvider: React.FC = ({ children }) => {
     });
     router.push("/");
     setLoggedUser(null);
-    console.log("Usuário deslogado");
   };
 
   useEffect(() => {

@@ -126,7 +126,6 @@ const ListagemFabricantes = () => {
     selectedManufacturer &&
       Object.assign(data, { id: selectedManufacturer.id });
 
-    console.log(data);
     await api
       .post("/manufacturers/update", data)
       .then((res) => {
