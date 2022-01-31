@@ -55,7 +55,7 @@ export const UserProvider: React.FC = ({ children }) => {
         return res.data;
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        console.error(err.response.data.message);
       });
   };
 
@@ -78,7 +78,7 @@ export const UserProvider: React.FC = ({ children }) => {
           .then((res) => {
             setLoggedUser(res.data);
           })
-          .catch((err) => console.log(err.response));
+          .catch((err) => console.error(err.response));
       };
 
       fetchLoggedUsedData();

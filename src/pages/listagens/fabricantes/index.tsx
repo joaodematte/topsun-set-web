@@ -109,7 +109,7 @@ const ListagemFabricantes = () => {
         onAddClose();
         reset();
       })
-      .catch((err) => console.log(err.response.data.message));
+      .catch((err) => console.error(err.response.data.message));
   };
 
   const handleManufacturerDelete = async (id: string) => {
@@ -119,7 +119,7 @@ const ListagemFabricantes = () => {
         handleGetManufacturers();
         onDeleteClose();
       })
-      .catch((err) => console.log(err.response.data.message));
+      .catch((err) => console.error(err.response.data.message));
   };
 
   const handleManufacturerUpdate = async (data: Object) => {
@@ -133,7 +133,7 @@ const ListagemFabricantes = () => {
         resetEdit();
         onEditClose();
       })
-      .catch((err) => console.log(err.response.data.message));
+      .catch((err) => console.error(err.response.data.message));
   };
   return (
     <>

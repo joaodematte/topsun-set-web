@@ -96,7 +96,7 @@ const ListagemInversores = () => {
         setInverters(res.data);
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        console.error(err.response.data.message);
       });
   };
 
@@ -109,7 +109,7 @@ const ListagemInversores = () => {
         reset();
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        console.error(err.response.data.message);
       });
   };
 
@@ -129,7 +129,7 @@ const ListagemInversores = () => {
           handleGetInverters();
         })
         .catch((err) => {
-          console.log(err.response.data.message);
+          console.error(err.response.data.message);
         });
     }
   };

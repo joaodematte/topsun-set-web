@@ -96,7 +96,7 @@ const ListagemModulos = () => {
         setSolarPanels(res.data);
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        console.error(err.response.data.message);
       });
   };
 
@@ -116,7 +116,7 @@ const ListagemModulos = () => {
         reset();
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        console.error(err.response.data.message);
       });
   };
 
@@ -128,7 +128,7 @@ const ListagemModulos = () => {
         onDeleteClose();
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        console.error(err.response.data.message);
       });
   };
 
@@ -149,7 +149,7 @@ const ListagemModulos = () => {
           handleGetSolarPanels();
         })
         .catch((err) => {
-          console.log(err.response.data.message);
+          console.error(err.response.data.message);
         });
     }
   };

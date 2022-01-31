@@ -57,7 +57,7 @@ const Configuracoes = () => {
         }, 2000);
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        console.error(err.response.data.message);
         setIsLoading(false);
       });
   };
@@ -94,7 +94,7 @@ const Configuracoes = () => {
           });
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        console.error(err.response.data.message);
       });
   };
 

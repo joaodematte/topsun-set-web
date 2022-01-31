@@ -43,7 +43,7 @@ const Registro = () => {
         signIn(data.username, data.password);
       })
       .catch((err) => {
-        console.log(err.response.data.message);
+        console.error(err.response.data.message);
         setIsLoading(false);
       });
   };
