@@ -28,7 +28,7 @@ const Dashboard = () => {
   };
 
   const fetchSolarPanelsQuantity = async () => {
-    await api.get("/inverters").then((res) => {
+    await api.get("/solarpanels").then((res) => {
       setSolarPanelsQuantit(res.data.length);
     });
   };
