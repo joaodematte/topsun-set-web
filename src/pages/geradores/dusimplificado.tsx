@@ -13,7 +13,7 @@ import { GetServerSideProps } from "next";
 import Head from "next/head";
 import { parseCookies } from "nookies";
 import { ReactElement, useContext, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { useFieldArray, useForm } from "react-hook-form";
 import { UserContext } from "../../context/UserContext";
 import MainLayout from "../../layouts/MainLayout";
 import api from "../../services/api";
@@ -53,10 +53,12 @@ const DuSimplificado = () => {
   const [selectedSolarPanel, setSelectedSolarPanel] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isDownloaded, setIsDownloaded] = useState(false);
+  const [invertersQuantity, setInvertersQuantity] = useState(1);
 
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm();
 
@@ -78,8 +80,12 @@ const DuSimplificado = () => {
     });
   };
 
-  const handlePdfCreation = async (pdfData: Object) => {
+  const handlePdfCreation = async (pdfData: any) => {
     setIsLoading(true);
+
+    if (invertersQuantity == 1) {
+      delete pdfData.modeloInversor1;
+    }
     await api
       .post("/gerador/simplificado", pdfData)
       .then(async (res) => {
@@ -281,30 +287,37 @@ const DuSimplificado = () => {
               id="quantidadeInversores"
               name="quantidadeInversores"
               isInvalid={errors.quantidadeInversores}
-              value="1"
+              onChange={(e) => setInvertersQuantity(Number(e.target.value))}
+              value={invertersQuantity}
             >
               <option value="1">1</option>
+              <option value="2">2</option>
             </Select>
           </FormControl>
 
-          <FormControl>
-            <FormLabel htmlFor="modeloInversor1">
-              Modelo do inversor 1
-            </FormLabel>
-            <Select
-              {...register("modeloInversor1", { required: true })}
-              id="modeloInversor1"
-              name="modeloInversor1"
-              placeholder="Selecione uma opção"
-              isInvalid={errors.modeloInversor1}
-            >
-              {inverters.map((item, index) => (
-                <option key={index} value={item.id}>
-                  {item.model.replace("|", " ")}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
+          {Array.from(Array(invertersQuantity).keys()).map((item, index) => (
+            <FormControl key={index}>
+              <FormLabel htmlFor={`modeloInversor${index}`}>
+                Modelo do inversor {index + 1}
+              </FormLabel>
+              <Select
+                {...register(`modeloInversor${index}`, {
+                  required: true,
+                })}
+                id={`modeloInversor${index}`}
+                name={`modeloInversor${index}`}
+                placeholder="Selecione uma opção"
+                isInvalid={eval(`errors.modeloInversor${index}`)}
+              >
+                {inverters.map((item, index) => (
+                  <option key={index} value={item.id}>
+                    {item.model.replace("|", " ")}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
+          ))}
+
           <Button
             type="submit"
             colorScheme={isDownloaded ? "green" : "blue"}
@@ -323,20 +336,20 @@ DuSimplificado.getLayout = function getLayout(page: ReactElement) {
   return <MainLayout>{page}</MainLayout>;
 };
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { ["topsunauth.token"]: token } = parseCookies(ctx);
+// export const getServerSideProps: GetServerSideProps = async (ctx) => {
+//   const { ["topsunauth.token"]: token } = parseCookies(ctx);
 
-  if (!token) {
-    return {
-      redirect: {
-        destination: "/",
-        permanent: false,
-      },
-    };
-  }
-  return {
-    props: {},
-  };
-};
+//   if (!token) {
+//     return {
+//       redirect: {
+//         destination: "/",
+//         permanent: false,
+//       },
+//     };
+//   }
+//   return {
+//     props: {},
+//   };
+// };
 
 export default DuSimplificado;
