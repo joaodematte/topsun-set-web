@@ -57,7 +57,7 @@ const Configuracoes = () => {
         }, 2000);
       })
       .catch((err) => {
-        console.log(err.response.data);
+        console.log(err.response.data.message);
         setIsLoading(false);
       });
   };
@@ -74,24 +74,28 @@ const Configuracoes = () => {
         "Content-Type": "multipart/form-data",
       },
       body: file,
-    }).then(async (res) => {
-      const imageUrl = secureUrl.data.url.split("?")[0];
-      await api
-        .post("/users/update", {
-          fullName: user?.fullName,
-          username: user?.username,
-          email: user?.email,
-          avatarUrl: imageUrl,
-        })
-        .then((res) => {
-          setIsAvatarLoading(false);
-          setAvatarIsSaved(true);
-          setTimeout(() => {
-            setAvatarIsSaved(false);
-          }, 2000);
-          setLoggedUser(res.data);
-        });
-    });
+    })
+      .then(async (res) => {
+        const imageUrl = secureUrl.data.url.split("?")[0];
+        await api
+          .post("/users/update", {
+            fullName: user?.fullName,
+            username: user?.username,
+            email: user?.email,
+            avatarUrl: imageUrl,
+          })
+          .then((res) => {
+            setIsAvatarLoading(false);
+            setAvatarIsSaved(true);
+            setTimeout(() => {
+              setAvatarIsSaved(false);
+            }, 2000);
+            setLoggedUser(res.data);
+          });
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+      });
   };
 
   useEffect(() => {

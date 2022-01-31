@@ -96,7 +96,7 @@ const ListagemModulos = () => {
         setSolarPanels(res.data);
       })
       .catch((err) => {
-        alert(err.response.data.message);
+        console.log(err.response.data.message);
       });
   };
 
@@ -116,15 +116,20 @@ const ListagemModulos = () => {
         reset();
       })
       .catch((err) => {
-        alert(err.response.data.message);
+        console.log(err.response.data.message);
       });
   };
 
   const handleDeleteSolarPanel = async (data: SolarPanelsModel) => {
-    await api.delete(`/solarpanels/${data.id}`).then((res) => {
-      handleGetSolarPanels();
-      onDeleteClose();
-    });
+    await api
+      .delete(`/solarpanels/${data.id}`)
+      .then((res) => {
+        handleGetSolarPanels();
+        onDeleteClose();
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+      });
   };
 
   const handleEditSolarPanel = async (data: SolarPanelsModel) => {
@@ -144,7 +149,7 @@ const ListagemModulos = () => {
           handleGetSolarPanels();
         })
         .catch((err) => {
-          alert(err.response.data.message);
+          console.log(err.response.data.message);
         });
     }
   };

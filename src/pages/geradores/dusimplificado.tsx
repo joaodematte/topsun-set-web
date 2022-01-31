@@ -80,11 +80,16 @@ const DuSimplificado = () => {
 
   const handlePdfCreation = async (pdfData: Object) => {
     setIsLoading(true);
-    await api.post("/gerador/simplificado", pdfData).then(async (res) => {
-      if (res.status != 200) return alert("não foi possível gerar o pdf");
+    await api
+      .post("/gerador/simplificado", pdfData)
+      .then(async (res) => {
+        if (res.status != 200) return alert("não foi possível gerar o pdf");
 
-      await handlePdfDownload();
-    });
+        await handlePdfDownload();
+      })
+      .catch((err) => {
+        console.log(err.response.data.message);
+      });
   };
 
   const handlePdfDownload = async () => {

@@ -57,8 +57,7 @@ export const UserProvider: React.FC = ({ children }) => {
         return res.data;
       })
       .catch((err) => {
-        console.log(err.response);
-        return err.response;
+        console.log(err.response.data.message);
       });
   };
 
