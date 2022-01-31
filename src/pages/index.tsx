@@ -17,6 +17,7 @@ import { ReactElement, useContext, useState } from "react";
 import { UserContext } from "../context/UserContext";
 import { parseCookies } from "nookies";
 import IndexRegisterLayout from "../layouts/IndexRegisterLayout";
+import Head from "next/head";
 
 const Home = () => {
   const { signIn } = useContext(UserContext);
@@ -49,6 +50,9 @@ const Home = () => {
       )}
       autoComplete="off"
     >
+      <Head>
+        <title>SET | Login</title>
+      </Head>
       <Heading fontSize="5xl" fontWeight="extrabold">
         SET
       </Heading>

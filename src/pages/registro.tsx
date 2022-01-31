@@ -19,6 +19,7 @@ import { ReactElement, useContext, useRef } from "react";
 import IndexRegisterLayout from "../layouts/IndexRegisterLayout";
 import api from "../services/api";
 import { UserContext } from "../context/UserContext";
+import Head from "next/head";
 
 const Registro = () => {
   const { signIn } = useContext(UserContext);
@@ -50,6 +51,9 @@ const Registro = () => {
       onSubmit={handleSubmit((data) => handleSignUp(data))}
       autoComplete="off"
     >
+      <Head>
+        <title>SET | Registro</title>
+      </Head>
       <Heading fontSize="5xl" fontWeight="extrabold">
         Registro
       </Heading>
