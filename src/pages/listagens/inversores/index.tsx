@@ -2,6 +2,7 @@ import { AddIcon, DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import {
   Badge,
   Button,
+  Code,
   Flex,
   FormControl,
   FormLabel,
@@ -176,7 +177,7 @@ const ListagemInversores = () => {
               {inverters &&
                 inverters.map((item: InvertersModel, index: number) => (
                   <Tr key={index}>
-                    <Td>{item.model}</Td>
+                    <Td>{item.model.replace("|", " ")}</Td>
                     <Td>{item.activePower}</Td>
                     <Td>{item.manufacturerName}</Td>
                     <Td isNumeric>
@@ -259,6 +260,9 @@ const ListagemInversores = () => {
           <ModalCloseButton />
           <ModalBody>
             <Grid gap={2}>
+              <Text>
+                Caso o inversor tenha 2 nomes, separe-os com um <Code>|</Code>
+              </Text>
               <FormControl>
                 <FormLabel htmlFor="model">Modelo</FormLabel>
                 <Input
