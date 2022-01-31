@@ -300,7 +300,7 @@ const DuSimplificado = () => {
             >
               {inverters.map((item, index) => (
                 <option key={index} value={item.id}>
-                  {item.model}
+                  {item.model.replace("|", " ")}
                 </option>
               ))}
             </Select>
