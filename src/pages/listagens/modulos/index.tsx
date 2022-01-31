@@ -129,6 +129,7 @@ const ListagemModulos = () => {
 
   const handleEditSolarPanel = async (data: SolarPanelsModel) => {
     const outputs = data.outputs
+      // @ts-ignore
       .split(",")
       .map((v: string) => v.trim())
       .map((v: string) => Number(v));
@@ -338,6 +339,7 @@ const ListagemModulos = () => {
         <ModalOverlay />
         <ModalContent
           as="form"
+          // @ts-ignore
           onSubmit={handleSubmitEdit(handleEditSolarPanel)}
           autoComplete="off"
         >
@@ -356,6 +358,7 @@ const ListagemModulos = () => {
                   id="model"
                   type="text"
                   isInvalid={updateErrors.model}
+                  // @ts-ignore
                   defaultValue={selectedSolarPanel && selectedSolarPanel.model}
                 />
               </FormControl>
@@ -367,8 +370,9 @@ const ListagemModulos = () => {
                   id="outputs"
                   type="text"
                   isInvalid={updateErrors.outputs}
+                  // @ts-ignore
                   defaultValue={
-                    selectedSolarPanel && selectedSolarPanel.outputs
+                    selectedSolarPanel && selectedSolarPanel.outputs.toString()
                   }
                 />
               </FormControl>

@@ -336,6 +336,7 @@ const ListagemInversores = () => {
                   id="model"
                   type="text"
                   isInvalid={updateErrors.model}
+                  // @ts-ignore
                   defaultValue={selectedInverter && selectedInverter.model}
                 />
               </FormControl>
@@ -347,8 +348,9 @@ const ListagemInversores = () => {
                   id="activePower"
                   type="text"
                   isInvalid={updateErrors.activePower}
+                  // @ts-ignore
                   defaultValue={
-                    selectedInverter && selectedInverter.activePower
+                    selectedInverter && selectedInverter.activePower.toString()
                   }
                 />
               </FormControl>

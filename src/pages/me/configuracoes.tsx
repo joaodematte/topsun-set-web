@@ -95,6 +95,7 @@ const Configuracoes = () => {
   };
 
   useEffect(() => {
+    // @ts-ignore
     reset(user);
   }, [reset, user]);
 
