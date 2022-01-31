@@ -87,7 +87,7 @@ const MobileSidebar = () => {
                       </Button>
                     ) : (
                       <Link href={{ pathname: item.path }} passHref key={index}>
-                        <Button
+                        <ChakraLink
                           w="full"
                           borderRadius={5}
                           px={4}
@@ -104,7 +104,7 @@ const MobileSidebar = () => {
                           <Flex alignItems="center">
                             {item.icon} <Text ml={4}>{item.title}</Text>
                           </Flex>
-                        </Button>
+                        </ChakraLink>
                       </Link>
                     )
                   )}
