@@ -120,7 +120,7 @@ const ListagemInversores = () => {
     });
   };
 
-  const handleEditInverter = async (data: InvertersModel) => {
+  const handleEditInverter = async (data: any) => {
     if (selectedInverter) {
       await api
         .post(`/inverters/${selectedInverter.id}`, data)
