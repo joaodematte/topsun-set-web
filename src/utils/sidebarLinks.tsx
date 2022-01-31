@@ -47,13 +47,13 @@ export const sidebarLinks = [
         isDisabled: false,
         isLogout: false,
       },
-      {
-        title: "Diagrama unifilar",
-        path: "/geradores/diagramaunifilar",
-        icon: <BsFillDiagram3Fill size={20} />,
-        isDisabled: true,
-        isLogout: false,
-      },
+      // {
+      //   title: "Diagrama unifilar",
+      //   path: "/geradores/diagramaunifilar",
+      //   icon: <BsFillDiagram3Fill size={20} />,
+      //   isDisabled: true,
+      //   isLogout: false,
+      // },
     ],
   },
   {
@@ -80,13 +80,13 @@ export const sidebarLinks = [
         isDisabled: false,
         isLogout: false,
       },
-      {
-        title: "Usuários",
-        path: "/listagens/usuarios",
-        icon: <FaUserFriends size={20} />,
-        isDisabled: true,
-        isLogout: false,
-      },
+      // {
+      //   title: "Usuários",
+      //   path: "/listagens/usuarios",
+      //   icon: <FaUserFriends size={20} />,
+      //   isDisabled: true,
+      //   isLogout: false,
+      // },
     ],
   },
   {
