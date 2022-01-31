@@ -37,6 +37,7 @@ const Home = () => {
         setIsLoading(false);
       })
       .catch((err) => {
+        console.log(err.response.data);
         setIsLoading(false);
       });
   };

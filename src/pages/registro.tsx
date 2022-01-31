@@ -15,7 +15,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import { ArrowForwardIcon } from "@chakra-ui/icons";
 import { useForm } from "react-hook-form";
 import { parseCookies } from "nookies";
-import { ReactElement, useContext, useRef } from "react";
+import { ReactElement, useContext, useRef, useState } from "react";
 import IndexRegisterLayout from "../layouts/IndexRegisterLayout";
 import api from "../services/api";
 import { UserContext } from "../context/UserContext";
@@ -23,6 +23,7 @@ import Head from "next/head";
 
 const Registro = () => {
   const { signIn } = useContext(UserContext);
+  const [isLoading, setIsLoading] = useState(false);
   const {
     register,
     handleSubmit,
@@ -34,13 +35,16 @@ const Registro = () => {
   password.current = watch("password", "");
 
   const handleSignUp = async (data: any) => {
+    setIsLoading(true);
     await api
       .post("/users", data)
       .then(() => {
+        setIsLoading(false);
         signIn(data.username, data.password);
       })
       .catch((err) => {
-        console.log(err.response);
+        console.log(err.response.data);
+        setIsLoading(false);
       });
   };
 
@@ -129,6 +133,7 @@ const Registro = () => {
         w="100%"
         type="submit"
         rightIcon={<ArrowForwardIcon />}
+        isLoading={isLoading}
       >
         Registrar
       </Button>
