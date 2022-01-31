@@ -1,6 +1,7 @@
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import {
   Box,
+  Code,
   Flex,
   Grid,
   Heading,
@@ -94,8 +95,12 @@ const Dashboard = () => {
             </ChakraLink>
           </Link>
           <Grid p={2} bg="gray.100" borderRadius={5}>
-            <Text>Usuário: 78893119900</Text>
-            <Text>Senha: hgtm97</Text>
+            <Text>
+              Usuário: <Code>78893119900</Code>
+            </Text>
+            <Text>
+              Senha: <Code>hgtm97</Code>
+            </Text>
           </Grid>
           <Link href="https://documentcenter.weg.net/SolarBox/" passHref>
             <ChakraLink isExternal>
@@ -103,8 +108,12 @@ const Dashboard = () => {
             </ChakraLink>
           </Link>
           <Grid p={2} bg="gray.100" borderRadius={5}>
-            <Text>Usuário: robert@topsun.net.br</Text>
-            <Text>Senha: Topsun@2021</Text>
+            <Text>
+              Usuário: <Code>robert@topsun.net.br</Code>
+            </Text>
+            <Text>
+              Senha: <Code>Topsun@2021</Code>
+            </Text>
           </Grid>
         </Grid>
       </Flex>

@@ -261,8 +261,9 @@ const ListagemInversores = () => {
           <ModalBody>
             <Grid gap={2}>
               <Text>
-                Caso o inversor tenha 2 nomes, separe-os com um <Code>|</Code>
+                Caso o inversor tenha 2 nomes, insira da seguinte forma:
               </Text>
+              <Code>SUN2000-12KTL-M2|(SIW500H ST012 M2)</Code>
               <FormControl>
                 <FormLabel htmlFor="model">Modelo</FormLabel>
                 <Input
